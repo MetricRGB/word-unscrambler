@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Unscrambler & Anagram Solver | Free Scrabble & Word Finder</title>
+    <meta name="description" content="Free online Word Unscrambler and Anagram Solver. Unscramble letters for Scrabble, Words with Friends, and word puzzles instantly.">
+    <meta name="keywords" content="word unscrambler, anagram solver, scrabble cheat, word finder, letter solver, dictionary lookup">
+    <link rel="canonical" href="https://metrics112-dot.github.io/word-unscrambler/">
+
+    <!-- Open Graph / Social Meta Tags -->
+    <meta property="og:title" content="Word Unscrambler & Anagram Solver">
+    <meta property="og:description" content="Unscramble jumbled letters and find anagrams instantly.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://metrics112-dot.github.io/word-unscrambler/">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            900: '#14532d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Structured Data (JSON-LD) for WebApplication & FAQ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Word Unscrambler & Anagram Solver",
+      "url": "https://metrics112-dot.github.io/word-unscrambler/",
+      "description": "Unscramble jumbled letters and find anagrams for word games.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How do I use the Word Unscrambler?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Simply type your jumbled letters (up to 15 characters) into the search bar and click Solve. The tool will instantly match all possible dictionary words."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use wildcard characters or blanks?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes! You can use a question mark (?) or a space to represent blank tiles or missing wildcard letters."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <style>
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.05); }
+        ::-webkit-scrollbar-thumb { background: rgba(100, 116, 139, 0.4); border-radius: 4px; }
+        .tile-gradient { background: linear-gradient(135deg, #fef08a 0%, #fde047 100%); }
+        .dark .tile-gradient { background: linear-gradient(135deg, #854d0e 0%, #a16207 100%); }
+    </style>
+</head>
+
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-full flex flex-col font-sans transition-colors duration-200">
+
+    <!-- Header / Navbar -->
+    <header class="border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-tr from-emerald-500 to-teal-600 text-white p-2.5 rounded-xl shadow-md">
+                    <i class="fa-solid font-bold text-xl fa-arrow-down-a-z"></i>
+                </div>
+                <div>
+                    <a href="index.html" class="text-xl font-bold bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-400 dark:to-teal-400 bg-clip-text text-transparent">
+                        UnscramblePro
+                    </a>
+                    <span class="block text-xs text-slate-500 dark:text-slate-400">Word Finder & Anagram Solver</span>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-3">
+                <button id="themeToggleBtn" aria-label="Toggle theme" class="p-2.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors">
+                    <i id="themeToggleIcon" class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Left / Core Utility Column (8 cols) -->
+        <div class="lg:col-span-8 space-y-6">
+
+            <!-- Hero & Search Card -->
+            <section class="bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200/80 dark:border-slate-700/80">
+                <div class="max-w-2xl">
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                        Word Unscrambler & Anagram Solver
+                    </h1>
+                    <p class="mt-2 text-slate-600 dark:text-slate-300 text-sm sm:text-base">
+                        Enter up to 15 letters (use <span class="font-bold text-emerald-600 dark:text-emerald-400">?</span> or <span class="font-bold text-emerald-600 dark:text-emerald-400">space</span> for wildcards) to find all matching dictionary words.
+                    </p>
+                </div>
+
+                <!-- Input Form -->
+                <form id="unscrambleForm" class="mt-6 space-y-4" onsubmit="event.preventDefault(); processUnscramble();">
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="lettersInput" 
+                            placeholder="e.g. SILENT or S?LENT" 
+                            maxlength="15"
+                            autocomplete="off"
+                            spellcheck="false"
+                            class="w-full pl-4 pr-32 py-4 rounded-xl text-lg sm:text-xl font-mono tracking-widest uppercase bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 outline-none transition-all shadow-inner"
+                        />
+                        <button 
+                            type="button" 
+                            id="clearBtn"
+                            onclick="clearInput()" 
+                            class="hidden absolute right-24 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-2 text-sm"
+                        >
+                            <i class="fa-solid fa-circle-xmark"></i>
+                        </button>
+                        <button 
+                            type="submit" 
+                            class="absolute right-2 top-1/2 -translate-y-1/2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 flex items-center space-x-2"
+                        >
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <span class="hidden sm:inline">Solve</span>
+                        </button>
+                    </div>
+
+                    <!-- Filter Controls & Sorting Options -->
+                    <div class="flex flex-wrap items-center justify-between gap-3 pt-2 text-sm">
+                        <div class="flex items-center space-x-2">
+                            <label for="startsWith" class="text-slate-600 dark:text-slate-400">Starts with:</label>
+                            <input type="text" id="startsWith" maxlength="3" class="w-16 px-2 py-1 uppercase font-mono rounded border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-white text-center focus:ring-1 focus:ring-emerald-500 outline-none">
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <label for="endsWith" class="text-slate-600 dark:text-slate-400">Ends with:</label>
+                            <input type="text" id="endsWith" maxlength="3" class="w-16 px-2 py-1 uppercase font-mono rounded border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-white text-center focus:ring-1 focus:ring-emerald-500 outline-none">
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <label for="minLength" class="text-slate-600 dark:text-slate-400">Min Length:</label>
+                            <select id="minLength" class="px-2 py-1 rounded border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-white focus:ring-1 focus:ring-emerald-500 outline-none">
+                                <option value="2">2 Letters</option>
+                                <option value="3">3 Letters</option>
+                                <option value="4">4 Letters</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Monetization Notice: Responsive Display Ad Placeholder -->
+            <div class="bg-slate-200/60 dark:bg-slate-800/60 border border-dashed border-slate-300 dark:border-slate-700 rounded-xl p-4 text-center min-h-[100px] flex flex-col justify-center items-center relative overflow-hidden">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1">Advertisement</span>
+                <ins class="adsbygoogle"
+                     style="display:block; width:100%; text-align:center;"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX" 
+                     data-ad-slot="1234567890"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div id="loadingIndicator" class="hidden py-12 text-center">
+                <div class="inline-block animate-spin rounded-full h-10 w-10 border-4 border-emerald-500 border-t-transparent"></div>
+                <p class="mt-3 text-slate-600 dark:text-slate-400 font-medium">Unscrambling words against dictionary...</p>
+            </div>
+
+            <!-- Results Container -->
+            <section id="resultsSection" class="hidden space-y-6">
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                    <div>
+                        <span class="text-slate-500 dark:text-slate-400 text-sm">Found</span>
+                        <span id="totalWordCount" class="text-xl font-bold text-emerald-600 dark:text-emerald-400 mx-1">0</span>
+                        <span class="text-slate-500 dark:text-slate-400 text-sm">words for</span>
+                        <span id="searchedLettersBadge" class="font-mono font-bold uppercase ml-1 px-2 py-0.5 bg-slate-100 dark:bg-slate-700 rounded text-slate-800 dark:text-slate-200"></span>
+                    </div>
+                </div>
+                <div id="groupedResults" class="space-y-6"></div>
+            </section>
+
+            <!-- Comprehensive SEO Content Body -->
+            <article class="bg-white dark:bg-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-200/80 dark:border-slate-700/80 space-y-6 text-slate-600 dark:text-slate-300 leading-relaxed">
+                <h2 class="text-xl font-bold text-slate-900 dark:text-white">Mastering Word Games With an Anagram Solver</h2>
+                <p class="text-sm">
+                    Word puzzles, Scrabble, and Words with Friends challenge your lexicon and spatial-linguistic intelligence. When you hit a difficult rack containing awkward consonant clusters or a lack of vowels, our free online <strong>Word Unscrambler</strong> acts as your ultimate companion to parse valid dictionary entries within milliseconds.
+                </p>
+
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-white pt-2">How to Maximize Your Scores in Scrabble</h3>
+                <ul class="list-disc list-inside text-sm space-y-2">
+                    <li><strong class="text-slate-800 dark:text-slate-200">High-Value Short Words:</strong> Memorize obscure two-letter and three-letter words containing high-point letters like X, Z, Q, and J (e.g., ZA, QI, XI).</li>
+                    <li><strong class="text-slate-800 dark:text-slate-200">Leverage Blank Tiles Wisely:</strong> Use the wildcard search feature on this utility to determine all possible hook words you can build with blank tiles.</li>
+                    <li><strong class="text-slate-800 dark:text-slate-200">Prefix and Suffix Deconstruction:</strong> Isolate common roots like <em>UN-</em>, <em>RE-</em>, <em>-ING</em>, or <em>-ED</em> to dramatically reduce the permutations of your rack letters.</li>
+                </ul>
+            </article>
+
+        </div>
+
+        <!-- Right Sidebar (4 cols) -->
+        <aside class="lg:col-span-4 space-y-6">
+            
+            <!-- Sidebar Ad Banner -->
+            <div class="bg-slate-200/60 dark:bg-slate-800/60 border border-dashed border-slate-300 dark:border-slate-700 rounded-2xl p-4 text-center min-h-[250px] flex flex-col justify-center items-center relative">
+                <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">Advertisement</span>
+                <ins class="adsbygoogle"
+                     style="display:block; width:100%; height:250px;"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="0987654321"
+                     data-ad-format="rectangle"></ins>
+            </div>
+
+            <!-- Popular Searches -->
+            <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 border border-slate-200/80 dark:border-slate-700/80 shadow-sm">
+                <h3 class="text-base font-bold text-slate-900 dark:text-white mb-3 flex items-center space-x-2">
+                    <i class="fa-solid fa-fire text-amber-500"></i>
+                    <span>Popular Unscramble Searches</span>
+                </h3>
+                <div class="flex flex-wrap gap-2 text-xs">
+                    <button onclick="setSearch('SILENT')" class="px-3 py-1.5 bg-slate-100 hover:bg-emerald-50 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-lg transition-colors font-mono">SILENT</button>
+                    <button onclick="setSearch('LISTEN')" class="px-3 py-1.5 bg-slate-100 hover:bg-emerald-50 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-lg transition-colors font-mono">LISTEN</button>
+                    <button onclick="setSearch('CREATE')" class="px-3 py-1.5 bg-slate-100 hover:bg-emerald-50 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-lg transition-colors font-mono">CREATE</button>
+                    <button onclick="setSearch('PLANET')" class="px-3 py-1.5 bg-slate-100 hover:bg-emerald-50 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-lg transition-colors font-mono">PLANET</button>
+                    <button onclick="setSearch('PUZZLE')" class="px-3 py-1.5 bg-slate-100 hover:bg-emerald-50 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-lg transition-colors font-mono">PUZZLE</button>
+                    <button onclick="setSearch('ANAGRAM')" class="px-3 py-1.5 bg-slate-100 hover:bg-emerald-50 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-lg transition-colors font-mono">ANAGRAM</button>
+                </div>
+            </div>
+
+            <!-- Value Prop Card -->
+            <div class="bg-gradient-to-br from-emerald-500 to-teal-700 rounded-2xl p-6 text-white shadow-sm">
+                <h3 class="font-bold text-lg mb-2">Lightning Fast Solver</h3>
+                <p class="text-xs text-emerald-100 leading-relaxed">
+                    Instantly parse valid dictionary combinations and anagram results for your word games with zero latency.
+                </p>
+            </div>
+
+        </aside>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 dark:text-slate-400 space-y-2">
+            <p>&copy; 2026 UnscramblePro Utility Site. Free for educational and gaming support.</p>
+            <div class="flex justify-center space-x-4">
+                <a href="privacy.html" class="hover:underline">Privacy Policy</a>
+                <span>&bull;</span>
+                <a href="terms.html" class="hover:underline">Terms of Service</a>
+                <span>&bull;</span>
+                <a href="contact.html" class="hover:underline">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Load external dictionary file -->
+    <script src="dictionary.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            checkUrlQuery();
+            
+            document.getElementById('lettersInput').addEventListener('input', (e) => {
+                const clearBtn = document.getElementById('clearBtn');
+                if (e.target.value.length > 0) {
+                    clearBtn.classList.remove('hidden');
+                } else {
+                    clearBtn.classList.add('hidden');
+                }
+            });
+        });
+
+        function initTheme() {
+            const toggleBtn = document.getElementById('themeToggleBtn');
+            const icon = document.getElementById('themeToggleIcon');
+            
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+                icon.className = 'fa-solid fa-sun';
+            }
+
+            toggleBtn.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                if (document.documentElement.classList.contains('dark')) {
+                    icon.className = 'fa-solid fa-sun';
+                } else {
+                    icon.className = 'fa-solid fa-moon';
+                }
+            });
+        }
+
+        function checkUrlQuery() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const queryLetters = urlParams.get('letters');
+            if (queryLetters) {
+                document.getElementById('lettersInput').value = queryLetters;
+                processUnscramble();
+            }
+        }
+
+        function setSearch(word) {
+            document.getElementById('lettersInput').value = word;
+            processUnscramble();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function clearInput() {
+            document.getElementById('lettersInput').value = '';
+            document.getElementById('clearBtn').classList.add('hidden');
+            document.getElementById('resultsSection').classList.add('hidden');
+            document.title = "Word Unscrambler & Anagram Solver | Free Scrabble & Word Finder";
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+        function processUnscramble() {
+            const rawInput = document.getElementById('lettersInput').value.trim().toUpperCase();
+            if (!rawInput) return;
+
+            document.title = `Unscramble ${rawInput} — Word Solver & Anagrams`;
+
+            const newUrl = `${window.location.pathname}?letters=${encodeURIComponent(rawInput)}`;
+            window.history.pushState({ path: newUrl }, '', newUrl);
+
+            document.getElementById('loadingIndicator').classList.remove('hidden');
+            document.getElementById('resultsSection').classList.add('hidden');
+
+            const startsWith = document.getElementById('startsWith').value.trim().toUpperCase();
+            const endsWith = document.getElementById('endsWith').value.trim().toUpperCase();
+            const minLength = parseInt(document.getElementById('minLength').value, 10);
+
+            setTimeout(() => {
+                const inputFreq = getFrequencyMap(rawInput);
+                const wildcardCount = (rawInput.match(/[\?\s]/g) || []).length;
+
+                const uniqueMatches = new Set();
+                DICTIONARY.forEach(word => {
+                    if (word.length < minLength || word.length > rawInput.length) return;
+                    if (startsWith && !word.startsWith(startsWith)) return;
+                    if (endsWith && !word.endsWith(endsWith)) return;
+
+                    if (canBuildWord(word, { ...inputFreq }, wildcardCount)) {
+                        uniqueMatches.add(word);
+                    }
+                });
+
+                displayResults(Array.from(uniqueMatches), rawInput);
+                document.getElementById('loadingIndicator').classList.add('hidden');
+                document.getElementById('resultsSection').classList.remove('hidden');
+            }, 100);
+        }
+
+        function getFrequencyMap(str) {
+            const map = {};
+            for (let char of str) {
+                if (char !== '?' && char !== ' ') {
+                    map[char] = (map[char] || 0) + 1;
+                }
+            }
+            return map;
+        }
+
+        function canBuildWord(word, freqMap, wildcardsAvailable) {
+            let neededWildcards = 0;
+            for (let char of word) {
+                if (freqMap[char] && freqMap[char] > 0) {
+                    freqMap[char]--;
+                } else {
+                    neededWildcards++;
+                }
+            }
+            return neededWildcards <= wildcardsAvailable;
+        }
+
+        function displayResults(words, inputLetters) {
+            document.getElementById('totalWordCount').textContent = words.length;
+            document.getElementById('searchedLettersBadge').textContent = inputLetters;
+
+            const container = document.getElementById('groupedResults');
+            container.innerHTML = '';
+
+            if (words.length === 0) {
+                container.innerHTML = `
+                    <div class="p-8 text-center bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700">
+                        <i class="fa-solid fa-face-meh text-4xl text-slate-400 mb-2"></i>
+                        <p class="text-slate-600 dark:text-slate-300 font-medium">No dictionary words found for "${inputLetters}".</p>
+                        <p class="text-xs text-slate-400 mt-1">Try adding wildcards (?) or lowering the min-length filter.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const grouped = {};
+            words.forEach(w => {
+                const len = w.length;
+                if (!grouped[len]) grouped[len] = [];
+                grouped[len].push(w);
+            });
+
+            const sortedLengths = Object.keys(grouped).map(Number).sort((a, b) => b - a);
+
+            sortedLengths.forEach(length => {
+                const wordGroup = grouped[length].sort();
+                const card = document.createElement('div');
+                card.className = 'bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3';
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 pb-2">
+                        <h3 class="font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+                            <span class="w-6 h-6 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 rounded-full flex items-center justify-center text-xs font-mono font-bold">${length}</span>
+                            <span>${length}-Letter Words</span>
+                        </h3>
+                        <span class="text-xs text-slate-400 font-medium">${wordGroup.length} ${wordGroup.length === 1 ? 'word' : 'words'}</span>
+                    </div>
+                    <div class="flex flex-wrap gap-2 pt-1">
+                        ${wordGroup.map(w => `
+                            <div class="px-3 py-1.5 tile-gradient text-slate-900 dark:text-amber-100 font-mono font-extrabold text-sm rounded-lg shadow-sm border border-yellow-300 dark:border-yellow-700/50">
+                                ${w}
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>
