@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | UnscramblePro</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans p-6 sm:p-12 max-w-4xl mx-auto leading-relaxed">
+    <h1 class="text-3xl font-black mb-4">Contact Us</h1>
+    <p class="text-sm text-slate-600 mb-6">Have questions, feedback, or suggestions for our word lexicon? Send us a message below!</p>
+    
+    <!-- Formspree Contact Form -->
+    <form action="https://formspree.io/f/mwlvbwwb" method="POST" class="bg-white p-6 rounded-xl border border-slate-200 shadow-sm space-y-4 text-sm">
+        <div>
+            <label class="block font-semibold mb-1 text-slate-700">Your Email:</label>
+            <input type="email" name="email" required class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none">
+        </div>
+        <div>
+            <label class="block font-semibold mb-1 text-slate-700">Your Message:</label>
+            <textarea name="message" rows="4" required class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none"></textarea>
+        </div>
+        <button type="submit" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg shadow-sm transition-all">Send Message</button>
+    </form>
+
+    <div class="mt-8 pt-4 border-t border-slate-200">
+        <a href="index.html" class="text-emerald-600 hover:underline">&larr; Back to Unscrambler Tool</a>
+    </div>
+</body>
+</html>
